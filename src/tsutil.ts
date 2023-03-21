@@ -81,9 +81,9 @@ export function tsConfigFileSearchDirForConfig(config :BuildConfig) :string {
   let dir = config.cwd || process.cwd()
   if (config.entryPoints && Object.keys(config.entryPoints).length > 0) {
     // TODO: pick the most specific common denominator dir path of all entryPoints
-    let firstEntryPoint = ""
+    let firstEntryPoint: string | { in: string, out: string } = ""
     if (Array.isArray(config.entryPoints)) {
-      firstEntryPoint = config.entryPoints[0]
+      firstEntryPoint = typeof config.entryPoints[0] === "string" ? config.entryPoints[0] : config.entryPoints[0].in;
     } else { // entryPoints is an object {outfile:infile}
       for (let outfile of Object.keys(config.entryPoints)) {
         firstEntryPoint = config.entryPoints[outfile]
